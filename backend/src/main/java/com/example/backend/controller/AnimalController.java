@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.AnimalDTO;
+import com.example.backend.entity.Animal;
 import com.example.backend.enums.AnimalType;
 import com.example.backend.mapper.AnimalMapper;
 import com.example.backend.service.AnimalService;
@@ -18,6 +19,11 @@ public class AnimalController {
     public AnimalController(AnimalService animalService, AnimalMapper animalMapper) {
         this.animalService = animalService;
         this.animalMapper = animalMapper;
+    }
+
+    @PostMapping
+    public void postAnimal (@RequestBody Animal animal) {
+        animalService.postAnimal(animal);
     }
 
     @GetMapping

@@ -16,6 +16,10 @@ public class AnimalService {
         this.animalRepository = animalRepository;
     }
 
+    public void postAnimal(Animal animal) {
+        animalRepository.save(animal);
+    }
+
     public List<Animal> getAll() {
         return animalRepository.findAll();
     }
