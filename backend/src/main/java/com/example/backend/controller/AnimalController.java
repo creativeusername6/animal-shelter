@@ -28,13 +28,13 @@ public class AnimalController {
                 .toList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/animal/{id}")
     public Optional<AnimalDTO> getById(@PathVariable Long id) {
         return animalService.getById(id)
                 .map(animalMapper::mapAnimalToDto);
     }
 
-    @GetMapping("/{type}")
+    @GetMapping("/type/{type}")
     public List<AnimalDTO> getAllByType(@PathVariable AnimalType type) {
         return animalService.getAllByType(type)
                 .stream()
