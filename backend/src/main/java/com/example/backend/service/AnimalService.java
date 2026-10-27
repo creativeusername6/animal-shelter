@@ -20,15 +20,15 @@ public class AnimalService {
         animalRepository.save(animal);
     }
 
-    public List<Animal> getAll() {
+    public List<Animal> getAllAnimals() {
         return animalRepository.findAll();
     }
 
-    public Optional<Animal> getById(Long id) {
+    public Optional<Animal> getAnimalById(Long id) {
         return this.animalRepository.findById(id);
     }
 
-    public List<Animal> getAllByType(AnimalType type) {
+    public List<Animal> getAllAnimalsByType(AnimalType type) {
         return animalRepository.findAll()
                 .stream()
                 .filter(a -> a.getType() == type)

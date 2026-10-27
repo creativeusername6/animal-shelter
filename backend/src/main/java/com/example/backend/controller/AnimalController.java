@@ -27,22 +27,22 @@ public class AnimalController {
     }
 
     @GetMapping
-    public List<AnimalDTO> getAll() {
-        return animalService.getAll()
+    public List<AnimalDTO> getAllAnimals() {
+        return animalService.getAllAnimals()
                 .stream()
                 .map(animalMapper::mapAnimalToDto)
                 .toList();
     }
 
     @GetMapping("/animal/{id}")
-    public Optional<AnimalDTO> getById(@PathVariable Long id) {
-        return animalService.getById(id)
+    public Optional<AnimalDTO> getAnimalById(@PathVariable Long id) {
+        return animalService.getAnimalById(id)
                 .map(animalMapper::mapAnimalToDto);
     }
 
     @GetMapping("/type/{type}")
-    public List<AnimalDTO> getAllByType(@PathVariable AnimalType type) {
-        return animalService.getAllByType(type)
+    public List<AnimalDTO> getAllAnimalsByType(@PathVariable AnimalType type) {
+        return animalService.getAllAnimalsByType(type)
                 .stream()
                 .map(animalMapper::mapAnimalToDto)
                 .toList();
