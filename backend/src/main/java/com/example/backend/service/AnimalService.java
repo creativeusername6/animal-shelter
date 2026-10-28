@@ -76,4 +76,8 @@ public class AnimalService {
                     return animalRepository.save(a);
                 });
     }
+
+    public void deleteAnimal(Long id) {
+        animalRepository.deleteById(id);
+    }
 }

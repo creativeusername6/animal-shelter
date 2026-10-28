@@ -57,4 +57,9 @@ public class AnimalController {
     public Optional<Animal> patchAnimal(@PathVariable Long id, @RequestBody Animal animal) {
         return animalService.patchAnimal(id, animal);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAnimal(@PathVariable Long id) {
+        animalService.deleteAnimal(id);
+    }
 }
