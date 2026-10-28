@@ -34,4 +34,24 @@ public class AnimalService {
                 .filter(a -> a.getType() == type)
                 .toList();
     }
+
+    public Optional<Animal> putAnimal(Long id, Animal animal) {
+        return animalRepository.findById(id)
+                .map(a -> {
+                    a.setName(animal.getName());
+                    a.setType(animal.getType());
+                    a.setBreed(animal.getBreed());
+                    a.setAge(animal.getAge());
+                    a.setGender(animal.getGender());
+                    a.setSize(animal.getSize());
+                    a.setDescription(animal.getDescription());
+                    a.setVaccinated(animal.getVaccinated());
+                    a.setNeutered(animal.getNeutered());
+                    a.setStatus(animal.getStatus());
+                    a.setImageUrl(animal.getImageUrl());
+                    a.setCreatedAt(animal.getCreatedAt());
+                    a.setUpdatedAt(animal.getUpdatedAt());
+                    return animalRepository.save(animal);
+                });
+    }
 }

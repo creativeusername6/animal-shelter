@@ -47,4 +47,9 @@ public class AnimalController {
                 .map(animalMapper::mapAnimalToDto)
                 .toList();
     }
+
+    @PutMapping("/updateall/{id}")
+    public Optional<Animal> putAnimal(@PathVariable Long id, @RequestBody Animal animal) {
+        return animalService.putAnimal(id, animal);
+    }
 }
