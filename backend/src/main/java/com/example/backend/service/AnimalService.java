@@ -51,6 +51,28 @@ public class AnimalService {
                     a.setImageUrl(animal.getImageUrl());
                     a.setCreatedAt(animal.getCreatedAt());
                     a.setUpdatedAt(animal.getUpdatedAt());
+
+                    return animalRepository.save(a);
+                });
+    }
+
+    public Optional<Animal> patchAnimal(Long id, Animal animal) {
+        return animalRepository.findById(id)
+                .map(a -> {
+                    if (animal.getName() != null) a.setName(animal.getName());
+                    if (animal.getType() != null) a.setType(animal.getType());
+                    if (animal.getBreed() != null) a.setBreed(animal.getBreed());
+                    if (animal.getAge() != null) a.setAge(animal.getAge());
+                    if (animal.getGender() != null) a.setGender(animal.getGender());
+                    if (animal.getSize() != null) a.setSize(animal.getSize());
+                    if (animal.getDescription() != null) a.setDescription(animal.getDescription());
+                    if (animal.getVaccinated() != null) a.setVaccinated(animal.getVaccinated());
+                    if (animal.getNeutered() != null) a.setNeutered(animal.getNeutered());
+                    if (animal.getStatus() != null) a.setStatus(animal.getStatus());
+                    if (animal.getImageUrl() != null) a.setImageUrl(animal.getImageUrl());
+                    if (animal.getCreatedAt() != null) a.setCreatedAt(animal.getCreatedAt());
+                    if (animal.getUpdatedAt() != null) a.setUpdatedAt(animal.getUpdatedAt());
+
                     return animalRepository.save(a);
                 });
     }

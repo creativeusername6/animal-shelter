@@ -52,4 +52,9 @@ public class AnimalController {
     public Optional<Animal> putAnimal(@PathVariable Long id, @RequestBody Animal animal) {
         return animalService.putAnimal(id, animal);
     }
+
+    @PatchMapping("/update/{id}")
+    public Optional<Animal> patchAnimal(@PathVariable Long id, @RequestBody Animal animal) {
+        return animalService.patchAnimal(id, animal);
+    }
 }
