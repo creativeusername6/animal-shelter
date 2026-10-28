@@ -51,7 +51,7 @@ public class AnimalService {
                     a.setImageUrl(animal.getImageUrl());
                     a.setCreatedAt(animal.getCreatedAt());
                     a.setUpdatedAt(animal.getUpdatedAt());
-                    return animalRepository.save(animal);
+                    return animalRepository.save(a);
                 });
     }
 }
