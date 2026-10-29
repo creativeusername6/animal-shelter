@@ -2,7 +2,10 @@ package com.example.backend.controller;
 
 import com.example.backend.dto.AnimalDTO;
 import com.example.backend.entity.Animal;
+import com.example.backend.enums.AnimalSize;
+import com.example.backend.enums.AnimalStatus;
 import com.example.backend.enums.AnimalType;
+import com.example.backend.enums.Gender;
 import com.example.backend.mapper.AnimalMapper;
 import com.example.backend.service.AnimalService;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +46,38 @@ public class AnimalController {
     @GetMapping("/type/{type}")
     public List<AnimalDTO> getAllAnimalsByType(@PathVariable AnimalType type) {
         return animalService.getAllAnimalsByType(type)
+                .stream()
+                .map(animalMapper::mapAnimalToDto)
+                .toList();
+    }
+
+    @GetMapping("/gender/{gender}")
+    public List<AnimalDTO> getAllAnimalsByGender(@PathVariable Gender gender) {
+        return animalService.getAllAnimalsByGender(gender)
+                .stream()
+                .map(animalMapper::mapAnimalToDto)
+                .toList();
+    }
+
+    @GetMapping("/size/{size}")
+    public List<AnimalDTO> getAllAnimalsBySize(@PathVariable AnimalSize size) {
+        return animalService.getAllAnimalsBySize(size)
+                .stream()
+                .map(animalMapper::mapAnimalToDto)
+                .toList();
+    }
+
+    @GetMapping("/age/{lower}/{upper}")
+    public List<AnimalDTO> getAllAnimalsByAgeRange(@PathVariable Integer lower, @PathVariable Integer upper) {
+        return animalService.getAllAnimalsByAgeRange(lower, upper)
+                .stream()
+                .map(animalMapper::mapAnimalToDto)
+                .toList();
+    }
+
+    @GetMapping("/status/{status}")
+    public List<AnimalDTO> getAllAnimalsByStatus(@PathVariable AnimalStatus status) {
+        return animalService.getAllAnimalsByStatus(status)
                 .stream()
                 .map(animalMapper::mapAnimalToDto)
                 .toList();

@@ -1,7 +1,10 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Animal;
+import com.example.backend.enums.AnimalSize;
+import com.example.backend.enums.AnimalStatus;
 import com.example.backend.enums.AnimalType;
+import com.example.backend.enums.Gender;
 import com.example.backend.repository.AnimalRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,34 @@ public class AnimalService {
         return animalRepository.findAll()
                 .stream()
                 .filter(a -> a.getType() == type)
+                .toList();
+    }
+
+    public List<Animal> getAllAnimalsByGender(Gender gender) {
+        return animalRepository.findAll()
+                .stream()
+                .filter(a -> a.getGender() == gender)
+                .toList();
+    }
+
+    public List<Animal> getAllAnimalsBySize(AnimalSize size) {
+        return animalRepository.findAll()
+                .stream()
+                .filter(a -> a.getSize() == size)
+                .toList();
+    }
+
+    public List<Animal> getAllAnimalsByAgeRange(Integer lower, Integer upper) {
+        return animalRepository.findAll()
+                .stream()
+                .filter(a -> a.getAge() >= lower && a.getAge() <= upper)
+                .toList();
+    }
+
+    public List<Animal> getAllAnimalsByStatus(AnimalStatus status) {
+        return animalRepository.findAll()
+                .stream()
+                .filter(a -> a.getStatus() == status)
                 .toList();
     }
 
