@@ -83,17 +83,17 @@ public class AnimalController {
                 .toList();
     }
 
-    @PutMapping("/updateall/{id}")
+    @PutMapping("/{id}")
     public Optional<Animal> putAnimal(@PathVariable Long id, @RequestBody Animal animal) {
         return animalService.putAnimal(id, animal);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public Optional<Animal> patchAnimal(@PathVariable Long id, @RequestBody Animal animal) {
         return animalService.patchAnimal(id, animal);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAnimal(@PathVariable Long id) {
         animalService.deleteAnimal(id);
     }
