@@ -8,6 +8,8 @@ import com.example.backend.enums.AnimalType;
 import com.example.backend.enums.Gender;
 import com.example.backend.mapper.AnimalMapper;
 import com.example.backend.service.AnimalService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,9 @@ public class AnimalController {
     }
 
     @PostMapping
-    public void postAnimal (@RequestBody Animal animal) {
+    public ResponseEntity<Animal> postAnimal (@RequestBody Animal animal) {
         animalService.postAnimal(animal);
+        return ResponseEntity.status(HttpStatus.CREATED).body(animal);
     }
 
     @GetMapping
