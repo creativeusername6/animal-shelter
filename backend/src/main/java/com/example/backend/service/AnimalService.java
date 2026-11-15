@@ -7,9 +7,12 @@ import com.example.backend.enums.AnimalType;
 import com.example.backend.enums.Gender;
 import com.example.backend.mapper.AnimalMapper;
 import com.example.backend.repository.AnimalRepository;
+import jakarta.persistence.criteria.Predicate;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,47 +30,30 @@ public class AnimalService {
         animalRepository.save(animal);
     }
 
-    public List<Animal> getAllAnimals() {
-        return animalRepository.findAll();
-    }
-
     public Optional<Animal> getAnimalById(Long id) {
         return this.animalRepository.findById(id);
     }
 
-    public List<Animal> getAllAnimalsByType(AnimalType type) {
-        return animalRepository.findAll()
-                .stream()
-                .filter(a -> a.getType() == type)
-                .toList();
-    }
+    public List<Animal> getAllAnimalsByFilters(AnimalType type,
+                                               Gender gender,
+                                               AnimalSize size,
+                                               Integer minAge,
+                                               Integer maxAge,
+                                               AnimalStatus status) {
+        Specification<Animal> specification = (root, _, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-    public List<Animal> getAllAnimalsByGender(Gender gender) {
-        return animalRepository.findAll()
-                .stream()
-                .filter(a -> a.getGender() == gender)
-                .toList();
-    }
+            if (type != null) predicates.add(builder.equal(root.get("type"), type));
+            if (gender != null) predicates.add(builder.equal(root.get("gender"), gender));
+            if (size != null) predicates.add(builder.equal(root.get("size"), size));
+            if (minAge != null) predicates.add(builder.greaterThanOrEqualTo(root.get("age"), minAge));
+            if (maxAge != null) predicates.add(builder.lessThanOrEqualTo(root.get("age"), maxAge));
+            if (status != null) predicates.add(builder.equal(root.get("status"), status));
 
-    public List<Animal> getAllAnimalsBySize(AnimalSize size) {
-        return animalRepository.findAll()
-                .stream()
-                .filter(a -> a.getSize() == size)
-                .toList();
-    }
+            return builder.and(predicates.toArray(new Predicate[0]));
+        };
 
-    public List<Animal> getAllAnimalsByAgeRange(Integer lower, Integer upper) {
-        return animalRepository.findAll()
-                .stream()
-                .filter(a -> a.getAge() >= lower && a.getAge() <= upper)
-                .toList();
-    }
-
-    public List<Animal> getAllAnimalsByStatus(AnimalStatus status) {
-        return animalRepository.findAll()
-                .stream()
-                .filter(a -> a.getStatus() == status)
-                .toList();
+        return animalRepository.findAll(specification);
     }
 
     public Optional<Animal> putAnimal(Long id, Animal animal) {

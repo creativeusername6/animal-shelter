@@ -33,8 +33,13 @@ public class AnimalController {
     }
 
     @GetMapping
-    public List<AnimalDTO> getAllAnimals() {
-        return animalService.getAllAnimals()
+    public List<AnimalDTO> getAllAnimalsByFilters(@RequestParam(required = false) AnimalType type,
+                                                  @RequestParam(required = false) Gender gender,
+                                                  @RequestParam(required = false) AnimalSize size,
+                                                  @RequestParam(required = false) Integer minAge,
+                                                  @RequestParam(required = false) Integer maxAge,
+                                                  @RequestParam(required = false) AnimalStatus status) {
+        return animalService.getAllAnimalsByFilters(type, gender, size, minAge, maxAge, status)
                 .stream()
                 .map(animalMapper::mapAnimalToDto)
                 .toList();
@@ -44,46 +49,6 @@ public class AnimalController {
     public Optional<AnimalDTO> getAnimalById(@PathVariable Long id) {
         return animalService.getAnimalById(id)
                 .map(animalMapper::mapAnimalToDto);
-    }
-
-    @GetMapping("/type/{type}")
-    public List<AnimalDTO> getAllAnimalsByType(@PathVariable AnimalType type) {
-        return animalService.getAllAnimalsByType(type)
-                .stream()
-                .map(animalMapper::mapAnimalToDto)
-                .toList();
-    }
-
-    @GetMapping("/gender/{gender}")
-    public List<AnimalDTO> getAllAnimalsByGender(@PathVariable Gender gender) {
-        return animalService.getAllAnimalsByGender(gender)
-                .stream()
-                .map(animalMapper::mapAnimalToDto)
-                .toList();
-    }
-
-    @GetMapping("/size/{size}")
-    public List<AnimalDTO> getAllAnimalsBySize(@PathVariable AnimalSize size) {
-        return animalService.getAllAnimalsBySize(size)
-                .stream()
-                .map(animalMapper::mapAnimalToDto)
-                .toList();
-    }
-
-    @GetMapping("/age/{lower}/{upper}")
-    public List<AnimalDTO> getAllAnimalsByAgeRange(@PathVariable Integer lower, @PathVariable Integer upper) {
-        return animalService.getAllAnimalsByAgeRange(lower, upper)
-                .stream()
-                .map(animalMapper::mapAnimalToDto)
-                .toList();
-    }
-
-    @GetMapping("/status/{status}")
-    public List<AnimalDTO> getAllAnimalsByStatus(@PathVariable AnimalStatus status) {
-        return animalService.getAllAnimalsByStatus(status)
-                .stream()
-                .map(animalMapper::mapAnimalToDto)
-                .toList();
     }
 
     @PutMapping("/{id}")
