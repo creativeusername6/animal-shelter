@@ -8,6 +8,8 @@ import com.example.backend.enums.AnimalType;
 import com.example.backend.enums.Gender;
 import com.example.backend.mapper.AnimalMapper;
 import com.example.backend.service.AnimalService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +38,12 @@ public class AnimalController {
     public List<AnimalDTO> getAllAnimalsByFilters(@RequestParam(required = false) AnimalType type,
                                                   @RequestParam(required = false) Gender gender,
                                                   @RequestParam(required = false) AnimalSize size,
-                                                  @RequestParam(required = false) Integer minAge,
-                                                  @RequestParam(required = false) Integer maxAge,
+                                                  @RequestParam(required = false)
+                                                      @Min(value = 0, message = "Age cannot be negative")
+                                                      @Max(value = 50, message = "Age is too high") Integer minAge,
+                                                  @RequestParam(required = false)
+                                                      @Min(value = 0, message = "Age cannot be negative")
+                                                      @Max(value = 50, message = "Age is too high") Integer maxAge,
                                                   @RequestParam(required = false) AnimalStatus status) {
         return animalService.getAllAnimalsByFilters(type, gender, size, minAge, maxAge, status)
                 .stream()
