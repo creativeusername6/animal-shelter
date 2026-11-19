@@ -6,6 +6,7 @@ import com.example.backend.enums.AnimalSize;
 import com.example.backend.enums.AnimalStatus;
 import com.example.backend.enums.AnimalType;
 import com.example.backend.enums.Gender;
+import com.example.backend.exception.AnimalNotFoundException;
 import com.example.backend.service.AnimalService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -46,8 +47,9 @@ public class AnimalController {
     }
 
     @GetMapping("/animal/{id}")
-    public Optional<AnimalResponseDTO> getAnimalById(@PathVariable Long id) {
-        return animalService.getAnimalById(id);
+    public AnimalResponseDTO getAnimalById(@PathVariable Long id) {
+        return animalService.getAnimalById(id)
+                .orElseThrow(() -> new AnimalNotFoundException("Animal was not found: ", id));
     }
 
     @PutMapping("/{id}")
