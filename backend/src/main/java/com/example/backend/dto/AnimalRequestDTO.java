@@ -7,10 +7,7 @@ import com.example.backend.enums.Gender;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
 
-import java.time.LocalDateTime;
-
-public record AnimalDTO (
-    Long id,
+public record AnimalRequestDTO(
     @NotBlank(message = "Name cannot be blank")
     String name,
     @NotNull(message = "Type is required")
@@ -33,6 +30,4 @@ public record AnimalDTO (
     @NotNull(message = "Status is required")
     AnimalStatus status,
     @URL(message = "URL must be valid")
-    String imageUrl,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt) {}
+    String imageUrl) {}

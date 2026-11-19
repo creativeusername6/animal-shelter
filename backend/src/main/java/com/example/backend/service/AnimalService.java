@@ -1,5 +1,7 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.AnimalRequestDTO;
+import com.example.backend.dto.AnimalResponseDTO;
 import com.example.backend.entity.Animal;
 import com.example.backend.enums.AnimalSize;
 import com.example.backend.enums.AnimalStatus;
@@ -26,15 +28,19 @@ public class AnimalService {
         this.animalMapper = animalMapper;
     }
 
-    public void postAnimal(Animal animal) {
-        animalRepository.save(animal);
+    public AnimalResponseDTO postAnimal(AnimalRequestDTO animalRequest) {
+        Animal animal = animalMapper.mapRequestToAnimal(animalRequest);
+        animal.setCreatedAt(LocalDateTime.now());
+        animal.setUpdatedAt(LocalDateTime.now());
+        return animalMapper.mapAnimalToResponse(animalRepository.save(animal));
     }
 
-    public Optional<Animal> getAnimalById(Long id) {
-        return this.animalRepository.findById(id);
+    public Optional<AnimalResponseDTO> getAnimalById(Long id) {
+        return this.animalRepository.findById(id)
+                .map(animalMapper::mapAnimalToResponse);
     }
 
-    public List<Animal> getAllAnimalsByFilters(AnimalType type,
+    public List<AnimalResponseDTO> getAllAnimalsByFilters(AnimalType type,
                                                Gender gender,
                                                AnimalSize size,
                                                Integer minAge,
@@ -53,25 +59,34 @@ public class AnimalService {
             return builder.and(predicates.toArray(new Predicate[0]));
         };
 
-        return animalRepository.findAll(specification);
+        return animalRepository.findAll(specification)
+                .stream()
+                .map(animalMapper::mapAnimalToResponse)
+                .toList();
     }
 
-    public Optional<Animal> putAnimal(Long id, Animal animal) {
+    public Optional<AnimalResponseDTO> putAnimal(Long id, AnimalRequestDTO animalRequest) {
+        Animal animal = animalMapper.mapRequestToAnimal(animalRequest);
+
         return animalRepository.findById(id)
                 .map(a -> {
                     animalMapper.putAnimal(animal, a);
                     a.setUpdatedAt(LocalDateTime.now());
                     return animalRepository.save(a);
-                });
+                })
+                .map(animalMapper::mapAnimalToResponse);
     }
 
-    public Optional<Animal> patchAnimal(Long id, Animal animal) {
+    public Optional<AnimalResponseDTO> patchAnimal(Long id, AnimalRequestDTO animalRequest) {
+        Animal animal = animalMapper.mapRequestToAnimal(animalRequest);
+
         return animalRepository.findById(id)
                 .map(a -> {
                     animalMapper.patchAnimal(animal, a);
                     a.setUpdatedAt(LocalDateTime.now());
                     return animalRepository.save(a);
-                });
+                })
+                .map(animalMapper::mapAnimalToResponse);
     }
 
     public void deleteAnimal(Long id) {
