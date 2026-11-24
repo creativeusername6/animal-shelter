@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.AnimalPatchDTO;
 import com.example.backend.dto.AnimalRequestDTO;
 import com.example.backend.dto.AnimalResponseDTO;
 import com.example.backend.entity.Animal;
@@ -77,8 +78,8 @@ public class AnimalService {
                 .map(animalMapper::mapAnimalToResponse);
     }
 
-    public Optional<AnimalResponseDTO> patchAnimal(Long id, AnimalRequestDTO animalRequest) {
-        Animal animal = animalMapper.mapRequestToAnimal(animalRequest);
+    public Optional<AnimalResponseDTO> patchAnimal(Long id, AnimalPatchDTO animalPatch) {
+        Animal animal = animalMapper.mapPatchToAnimal(animalPatch);
 
         return animalRepository.findById(id)
                 .map(a -> {

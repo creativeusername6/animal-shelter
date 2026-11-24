@@ -1,5 +1,6 @@
 package com.example.backend.mapper;
 
+import com.example.backend.dto.AnimalPatchDTO;
 import com.example.backend.dto.AnimalRequestDTO;
 import com.example.backend.dto.AnimalResponseDTO;
 import com.example.backend.entity.Animal;
@@ -22,6 +23,12 @@ public interface AnimalMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Animal mapRequestToAnimal(AnimalRequestDTO animalRequest);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Animal mapPatchToAnimal(AnimalPatchDTO animalPatch);
 
     AnimalResponseDTO mapAnimalToResponse(Animal animal);
 }

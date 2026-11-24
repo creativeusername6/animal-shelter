@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.AnimalPatchDTO;
 import com.example.backend.dto.AnimalRequestDTO;
 import com.example.backend.dto.AnimalResponseDTO;
 import com.example.backend.enums.AnimalSize;
@@ -59,8 +60,8 @@ public class AnimalController {
     }
 
     @PatchMapping("/{id}")
-    public Optional<AnimalResponseDTO> patchAnimal(@PathVariable Long id, @RequestBody @Valid AnimalRequestDTO animalRequest) {
-        return animalService.patchAnimal(id, animalRequest);
+    public Optional<AnimalResponseDTO> patchAnimal(@PathVariable Long id, @RequestBody @Valid AnimalPatchDTO animalPatch) {
+        return animalService.patchAnimal(id, animalPatch);
     }
 
     @DeleteMapping("/{id}")
