@@ -56,12 +56,14 @@ public class AnimalController {
 
     @PutMapping("/{id}")
     public Optional<AnimalResponseDTO> putAnimal(@PathVariable Long id, @RequestBody @Valid AnimalRequestDTO animalRequest) {
-        return animalService.putAnimal(id, animalRequest);
+        return Optional.of(animalService.putAnimal(id, animalRequest)
+                .orElseThrow(() -> new AnimalNotFoundException(id)));
     }
 
     @PatchMapping("/{id}")
     public Optional<AnimalResponseDTO> patchAnimal(@PathVariable Long id, @RequestBody @Valid AnimalPatchDTO animalPatch) {
-        return animalService.patchAnimal(id, animalPatch);
+        return Optional.of(animalService.patchAnimal(id, animalPatch)
+                .orElseThrow(() -> new AnimalNotFoundException(id)));
     }
 
     @DeleteMapping("/{id}")
