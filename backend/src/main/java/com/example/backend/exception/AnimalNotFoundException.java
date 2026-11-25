@@ -1,7 +1,9 @@
 package com.example.backend.exception;
 
 public class AnimalNotFoundException extends RuntimeException {
-    public AnimalNotFoundException(String message, Long id) {
+    public AnimalNotFoundException(Long id) {
+        final String message = "Could not find animal with ID: ";
+
         super(message + id);
     }
 }

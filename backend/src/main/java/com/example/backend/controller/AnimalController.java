@@ -51,7 +51,7 @@ public class AnimalController {
     @GetMapping("/{id}")
     public AnimalResponseDTO getAnimalById(@PathVariable Long id) {
         return animalService.getAnimalById(id)
-                .orElseThrow(() -> new AnimalNotFoundException("Animal was not found: ", id));
+                .orElseThrow(() -> new AnimalNotFoundException(id));
     }
 
     @PutMapping("/{id}")
