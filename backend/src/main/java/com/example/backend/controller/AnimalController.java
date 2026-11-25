@@ -48,7 +48,7 @@ public class AnimalController {
         return animalService.getAllAnimalsByFilters(type, gender, size, minAge, maxAge, status);
     }
 
-    @GetMapping("/animal/{id}")
+    @GetMapping("/{id}")
     public AnimalResponseDTO getAnimalById(@PathVariable Long id) {
         return animalService.getAnimalById(id)
                 .orElseThrow(() -> new AnimalNotFoundException("Animal was not found: ", id));
