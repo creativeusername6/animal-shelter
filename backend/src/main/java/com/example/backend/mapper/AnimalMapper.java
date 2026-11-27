@@ -11,24 +11,18 @@ public interface AnimalMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    void putAnimal(Animal source, @MappingTarget Animal target);
+    void putAnimal(AnimalRequestDTO source, @MappingTarget Animal target);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void patchAnimal(Animal source, @MappingTarget Animal target);
+    void patchAnimal(AnimalPatchDTO source, @MappingTarget Animal target);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Animal mapRequestToAnimal(AnimalRequestDTO animalRequest);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Animal mapPatchToAnimal(AnimalPatchDTO animalPatch);
 
     AnimalResponseDTO mapAnimalToResponse(Animal animal);
 }

@@ -8,6 +8,7 @@ import com.example.backend.enums.AnimalSize;
 import com.example.backend.enums.AnimalStatus;
 import com.example.backend.enums.AnimalType;
 import com.example.backend.enums.Gender;
+import com.example.backend.exception.AnimalNotFoundException;
 import com.example.backend.mapper.AnimalMapper;
 import com.example.backend.repository.AnimalRepository;
 import jakarta.persistence.criteria.Predicate;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AnimalService {
@@ -36,9 +36,10 @@ public class AnimalService {
         return animalMapper.mapAnimalToResponse(animalRepository.save(animal));
     }
 
-    public Optional<AnimalResponseDTO> getAnimalById(Long id) {
+    public AnimalResponseDTO getAnimalById(Long id) {
         return this.animalRepository.findById(id)
-                .map(animalMapper::mapAnimalToResponse);
+                .map(animalMapper::mapAnimalToResponse)
+                .orElseThrow(() -> new AnimalNotFoundException(id));
     }
 
     public List<AnimalResponseDTO> getAllAnimalsByFilters(AnimalType type,
@@ -66,28 +67,20 @@ public class AnimalService {
                 .toList();
     }
 
-    public Optional<AnimalResponseDTO> putAnimal(Long id, AnimalRequestDTO animalRequest) {
-        Animal animal = animalMapper.mapRequestToAnimal(animalRequest);
-
-        return animalRepository.findById(id)
-                .map(a -> {
-                    animalMapper.putAnimal(animal, a);
-                    a.setUpdatedAt(LocalDateTime.now());
-                    return animalRepository.save(a);
-                })
-                .map(animalMapper::mapAnimalToResponse);
+    public AnimalResponseDTO putAnimal(Long id, AnimalRequestDTO animalRequest) {
+        Animal animal = animalRepository.findById(id)
+                .orElseThrow(() -> new AnimalNotFoundException(id));
+        animalMapper.putAnimal(animalRequest, animal);
+        animal.setUpdatedAt(LocalDateTime.now());
+        return animalMapper.mapAnimalToResponse(animalRepository.save(animal));
     }
 
-    public Optional<AnimalResponseDTO> patchAnimal(Long id, AnimalPatchDTO animalPatch) {
-        Animal animal = animalMapper.mapPatchToAnimal(animalPatch);
-
-        return animalRepository.findById(id)
-                .map(a -> {
-                    animalMapper.patchAnimal(animal, a);
-                    a.setUpdatedAt(LocalDateTime.now());
-                    return animalRepository.save(a);
-                })
-                .map(animalMapper::mapAnimalToResponse);
+    public AnimalResponseDTO patchAnimal(Long id, AnimalPatchDTO animalPatch) {
+        Animal animal = animalRepository.findById(id)
+                .orElseThrow(() -> new AnimalNotFoundException(id));
+        animalMapper.patchAnimal(animalPatch, animal);
+        animal.setUpdatedAt(LocalDateTime.now());
+        return animalMapper.mapAnimalToResponse(animalRepository.save(animal));
     }
 
     public void deleteAnimal(Long id) {

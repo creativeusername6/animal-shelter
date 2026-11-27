@@ -7,7 +7,6 @@ import com.example.backend.enums.AnimalSize;
 import com.example.backend.enums.AnimalStatus;
 import com.example.backend.enums.AnimalType;
 import com.example.backend.enums.Gender;
-import com.example.backend.exception.AnimalNotFoundException;
 import com.example.backend.service.AnimalService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/animals")
@@ -50,20 +48,17 @@ public class AnimalController {
 
     @GetMapping("/{id}")
     public AnimalResponseDTO getAnimalById(@PathVariable Long id) {
-        return animalService.getAnimalById(id)
-                .orElseThrow(() -> new AnimalNotFoundException(id));
+        return animalService.getAnimalById(id);
     }
 
     @PutMapping("/{id}")
-    public Optional<AnimalResponseDTO> putAnimal(@PathVariable Long id, @RequestBody @Valid AnimalRequestDTO animalRequest) {
-        return Optional.of(animalService.putAnimal(id, animalRequest)
-                .orElseThrow(() -> new AnimalNotFoundException(id)));
+    public AnimalResponseDTO putAnimal(@PathVariable Long id, @RequestBody @Valid AnimalRequestDTO animalRequest) {
+        return animalService.putAnimal(id, animalRequest);
     }
 
     @PatchMapping("/{id}")
-    public Optional<AnimalResponseDTO> patchAnimal(@PathVariable Long id, @RequestBody @Valid AnimalPatchDTO animalPatch) {
-        return Optional.of(animalService.patchAnimal(id, animalPatch)
-                .orElseThrow(() -> new AnimalNotFoundException(id)));
+    public AnimalResponseDTO patchAnimal(@PathVariable Long id, @RequestBody @Valid AnimalPatchDTO animalPatch) {
+        return animalService.patchAnimal(id, animalPatch);
     }
 
     @DeleteMapping("/{id}")
